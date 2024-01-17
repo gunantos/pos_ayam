@@ -7,7 +7,7 @@
     <meta name="description" content="Robust admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template.">
     <meta name="keywords" content="admin template, robust admin template, dashboard template, flat admin template, responsive admin template, web app, crypto dashboard, bitcoin dashboard">
     <meta name="author" content="PIXINVENT">
-    <title><?= isset($title) ? $title : 'APP AYAM' ?></title>
+    <title><?= isset($title) ? $title : APP_NAME ?></title>
     <link rel="apple-touch-icon" href="<?= base_url('assets/images/ico/apple-icon-120.png') ?>">
     <link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/images/ico/favicon.ico') ?>">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CMuli:300,400,500,700" rel="stylesheet">
@@ -25,6 +25,7 @@
     <!-- BEGIN Custom CSS-->
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/style.css') ?>">
     <!-- END Custom CSS-->
+    <?= $this->renderSection('header') ?>
   </head>
   <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-col="2-columns">
 
@@ -35,16 +36,17 @@
           <ul class="nav navbar-nav flex-row">
             <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
             <li class="nav-item"><a class="navbar-brand" href="<?= base_url() ?>"><img class="brand-logo" alt="robust admin logo" src="<?= base_url('assets/images/logo/logo-light-sm.png') ?>">
-                <h3 class="brand-text">Robust Admin</h3></a></li>
+                <h3 class="brand-text"><?= APP_NAME ?></h3></a></li>
             <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="fa fa-ellipsis-v"></i></a></li>
           </ul>
         </div>
         <div class="navbar-container content">
           <div class="collapse navbar-collapse" id="navbar-mobile">
             <ul class="nav navbar-nav mr-auto float-left">
+               <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs is-active" href="#"><i class="ft-menu">         </i></a></li>
             </ul>
             <ul class="nav navbar-nav float-right"> 
-              <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown"><span class="avatar avatar-online"><img src="<?= base_url('assets/images/portrait/small/avatar-s-1.png') ?>" alt="avatar"><i></i></span><span class="user-name"><?= user()->username ?></span></a>
+              <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown"><span class="avatar avatar-online"><img src="<?= base_url('assets/images/portrait/small/avatar-s-1.png') ?>" alt="avatar"><i></i></span><span class="user-name"><?= user() ? user()->username : 'Admin' ?></span></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="<?= base_url('logout') ?>"><i class="ft-power"></i> Logout</a>
                 </div>
@@ -64,27 +66,32 @@
       <div class="content-wrapper">
         <div class="content-header row">
           <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
-            <h3 class="content-header-title mb-0 d-inline-block">Dark Layout</h3>
+            <h3 class="content-header-title mb-0 d-inline-block"><?= isset($title) ? $title : APP_NAME ?></h3>
             <div class="row breadcrumbs-top d-inline-block">
               <div class="breadcrumb-wrapper col-12">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="index.html">Home</a>
-                  </li>
-                  <li class="breadcrumb-item"><a href="#">Page Layouts</a>
-                  </li>
-                  <li class="breadcrumb-item active">Dark Layout
-                  </li>
+                  <?php
+                    if (isset($breadcumb)) {
+                      if (is_array($breadcumb)) {
+                        for($i = 0; $i < sizeof($breadcumb); $i++) {
+                            if ($i == (sizeof($breadcumb) - 1)) {
+                              echo '<li class="breadcrumb-item active"><a href="#">'. $breadcumb[$i] .'</a></li>';
+                            } else {
+                               echo '<li class="breadcrumb-item"><a href="'. base_url(strtolower($breadcumb[$i])) .'">'. ucase($breadcumb[$i]) .'</a></li>';
+                            }
+                        }
+                      } else {
+                        echo '<li class="breadcrumb-item active"><a href="#">'. $breadcumb .'</a></li>';
+                      }
+                    }
+                  ?>
                 </ol>
               </div>
             </div>
           </div>
           <div class="content-header-right col-md-4 col-12">
-            <div class="btn-group float-md-right">
-              <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-settings mr-1"></i>Action</button>
-              <div class="dropdown-menu arrow"><a class="dropdown-item" href="#"><i class="fa fa-calendar mr-1"></i> Calender</a><a class="dropdown-item" href="#"><i class="fa fa-cart-plus mr-1"></i> Cart</a><a class="dropdown-item" href="#"><i class="fa fa-life-ring mr-1"></i> Support</a>
-                <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="fa fa-cog mr-1"></i> Settings</a>
-              </div>
-            </div>
+            <?= $this->renderSection('headerRight') ?>
+            
           </div>
         </div>
         <div class="content-body">
@@ -100,17 +107,10 @@
       <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span class="float-md-left d-block d-md-inline-block">Copyright  &copy; <?= date('Y') ?> <a class="text-bold-800 grey darken-2" href="<?= base_url() ?>" target="_blank"><?= base_url() ?> </a>, All rights reserved. </span></p>
     </footer>
 
-    <!-- BEGIN VENDOR JS-->
     <script src="<?= base_url('assets/vendors/js/vendors.min.js') ?>"></script>
-    <!-- BEGIN VENDOR JS-->
-    <!-- BEGIN PAGE VENDOR JS-->
     <script src="<?= base_url('assets/vendors/js/ui/prism.min.js') ?>"></script>
-    <!-- END PAGE VENDOR JS-->
-    <!-- BEGIN ROBUST JS-->
     <script src="<?= base_url('assets/js/core/app-menu.js') ?>"></script>
     <script src="<?= base_url('assets/js/core/app.js') ?>"></script>
-    <!-- END ROBUST JS-->
-    <!-- BEGIN PAGE LEVEL JS-->
-    <!-- END PAGE LEVEL JS-->
+    <?= $this->renderSection('script') ?>
   </body>
 </html>

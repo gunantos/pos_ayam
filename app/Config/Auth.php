@@ -3,7 +3,7 @@
 class Auth extends \Myth\Auth\Config\Auth
 {
     
-    public $viewLayout = 'Views\layout';
+    public $viewLayout = 'Views\layout_auth';
     public $views = [
         'login'       => 'Myth\Auth\Views\login',
         'register'    => 'Myth\Auth\Views\register',
@@ -12,4 +12,8 @@ class Auth extends \Myth\Auth\Config\Auth
         'emailForgot' => 'Myth\Auth\Views\emails\forgot',
     ];
     public $allowRegistration = false;
+    public $hashAlgorithm = PASSWORD_DEFAULT;
+     public $authenticationLibs = [
+        'local' => 'Myth\Auth\Authentication\LocalAuthenticator',
+    ];
 }
