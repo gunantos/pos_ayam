@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use App\Models\MyModel;
 
 /**
  * Class BaseController
@@ -58,5 +59,23 @@ abstract class BaseController extends Controller
 
     protected function _render($page, $data = []) {
         return view('pages/'. $page, $data);
+    }
+
+    protected function autoPage(string $title, MyModel $model, array $header_table = [])
+    {
+        $autoform = new \App\Libraries\FormBuilder();
+        $currentUrl = str_replace(base_url(), '', current_url());
+        $currentUrl = str_replace('index.php', '', $currentUrl);
+        $currentUrl = ltrim($currentUrl, '/');
+        $currentUrl = rtrim($currentUrl, '/');
+
+        $form = $autoform->createForm($model->myfields(), null, true);
+        $data = [
+            'header_table'=>$header_table,
+            'title' => ucwords(str_replace("_", " ", strtolower($title))),
+            'api'=>$currentUrl,
+            'form'=>$form
+        ];
+        return view('AutoPage', $data);
     }
 }

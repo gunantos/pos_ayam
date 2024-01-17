@@ -14,6 +14,7 @@
     <!-- BEGIN VENDOR CSS-->
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/vendors.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/vendors/css/ui/prism.min.css') ?>">
+    <?= $this->renderSection('head_vendor') ?>
     <!-- END VENDOR CSS-->
     <!-- BEGIN ROBUST CSS-->
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/app.css') ?>">
@@ -25,12 +26,12 @@
     <!-- BEGIN Custom CSS-->
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/style.css') ?>">
     <!-- END Custom CSS-->
-    <?= $this->renderSection('header') ?>
+    <?= $this->renderSection('head') ?>
   </head>
   <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-col="2-columns">
 
     <!-- fixed-top-->
-    <nav class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-dark navbar-shadow">
+    <nav class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-semi-dark navbar-shadow">
       <div class="navbar-wrapper">
         <div class="navbar-header">
           <ul class="nav navbar-nav flex-row">
@@ -71,19 +72,43 @@
               <div class="breadcrumb-wrapper col-12">
                 <ol class="breadcrumb">
                   <?php
+                    $bread = ['dashboard'];
+                    $bread_home = ['dashboard', '/', 'home'];
+
                     if (isset($breadcumb)) {
-                      if (is_array($breadcumb)) {
+                      if (is_array($breadcumb)) 
+                      {
                         for($i = 0; $i < sizeof($breadcumb); $i++) {
-                            if ($i == (sizeof($breadcumb) - 1)) {
-                              echo '<li class="breadcrumb-item active"><a href="#">'. $breadcumb[$i] .'</a></li>';
-                            } else {
-                               echo '<li class="breadcrumb-item"><a href="'. base_url(strtolower($breadcumb[$i])) .'">'. ucase($breadcumb[$i]) .'</a></li>';
-                            }
+                          if (!in_array($breadcumb, $bread_home) && !in_array($breadcumb, $bread)) {
+                            array_push($bread, $breadcumb);
+                          }
                         }
                       } else {
-                        echo '<li class="breadcrumb-item active"><a href="#">'. $breadcumb .'</a></li>';
+                        if (!in_array($breadcumb, $bread_home) && !in_array($breadcumb, $bread)) {
+                          array_push($bread, $breadcumb);
+                        }
                       }
                     }
+                    if (sizeof($bread) < 2) {
+                      $currentUrl = str_replace(base_url(), '', current_url());
+                      $currentUrl = str_replace('index.php', '', $currentUrl);
+                      $currentUrl = ltrim($currentUrl, '/');
+                      $currentUrl = rtrim($currentUrl, '/');
+                      array_push($bread, str_replace('-', ' ', $currentUrl));
+                    }
+                        for($i = 0; $i < sizeof($bread); $i++) {
+                            if (in_array($bread[$i], $bread_home)) {
+                              $uribread = base_url();
+                            } else {
+                              $uribread =  base_url(strtolower($bread[$i]));
+                            }
+                            if ($i == (sizeof($bread) - 1)) {
+                              echo '<li class="breadcrumb-item active"><a href="#">'. ucwords($bread[$i]) .'</a></li>';
+                            } else {
+                               echo '<li class="breadcrumb-item"><a href="'. $uribread .'">'. ucwords($bread[$i]) .'</a></li>';
+                            }
+                        }
+                      
                   ?>
                 </ol>
               </div>
@@ -103,12 +128,10 @@
     <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
-    <footer class="footer footer-static footer-dark navbar-border">
-      <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span class="float-md-left d-block d-md-inline-block">Copyright  &copy; <?= date('Y') ?> <a class="text-bold-800 grey darken-2" href="<?= base_url() ?>" target="_blank"><?= base_url() ?> </a>, All rights reserved. </span></p>
-    </footer>
 
     <script src="<?= base_url('assets/vendors/js/vendors.min.js') ?>"></script>
     <script src="<?= base_url('assets/vendors/js/ui/prism.min.js') ?>"></script>
+    <?= $this->renderSection('script_vendor') ?>
     <script src="<?= base_url('assets/js/core/app-menu.js') ?>"></script>
     <script src="<?= base_url('assets/js/core/app.js') ?>"></script>
     <?= $this->renderSection('script') ?>

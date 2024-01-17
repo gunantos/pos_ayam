@@ -16,13 +16,13 @@
           </li>
           <li class=" navigation-header"><span data-i18n="nav.category.input">Input</span><i class="ft-more-horizontal ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="Input"></i>
             <li class=" nav-item">
-            <a href="<?= base_url('/ayam/masuk') ?>">
+            <a href="<?= base_url('/ayam-masuk') ?>">
                 <i class="icon-drawer"></i>
                 <span class="menu-title" data-i18n="nav.dash.ayamMasuk">Ayam Masuk</span>
             </a>
           </li>
           <li class=" nav-item">
-            <a href="<?= base_url('/ayam/mati') ?>">
+            <a href="<?= base_url('/ayam-mati') ?>">
                 <i class="icon-drawer"></i>
                 <span class="menu-title" data-i18n="nav.dash.ayamMati_sisa">Ayam Mati & Sisa</span>
             </a>
