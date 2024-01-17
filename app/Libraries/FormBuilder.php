@@ -12,7 +12,7 @@ class FormBuilder
         $formData = $formData;
 
         // Buat form opening tag
-        $form = form_open();
+        $form = form_open('#', ['class'=>'', 'id'=>'formData']);
 
         // Loop melalui array formData untuk membuat input fields
         foreach ($formData as $field) {

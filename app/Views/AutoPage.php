@@ -40,14 +40,32 @@
 	    </div>
 	</div>
 </section>
-<?= $form ?>
-
+<div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <?= $form ?>
+      </div>
+    </div>
+  </div>
+</div>
 <?= $this->endSection() ?>
 <?= $this->section('script_vendor') ?>
    <script src="<?= base_url('assets/vendors/js/tables/datatable/datatables.min.js') ?>"></script>
 <?= $this->endSection() ?>
 <?= $this->section('script') ?>
 <script>
+    $('#myModal').on('hide.bs.modal', function(event) {
+         $('#staticBackdropLabel').html('Tambah Data');
+         document.getElementById("formData").reset();
+    });
+    $('#add-button').click(function() {
+      $('#myModal').modal('show');
+    });
    $(".ajax-sourced").DataTable({
         ajax: "../../../app-assets/data/datatables/ajax-sourced.json"
     });
