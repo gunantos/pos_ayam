@@ -42,17 +42,18 @@ class AyamMasuk extends Migration
             ],
             'createdAt' => [
                 'type' => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
+                'null'=>true,
             ],
             'updatedAt' => [
                 'type' => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
-                'on update' => 'CURRENT_TIMESTAMP',
+                'null'=>true,
             ],
         ]);
 
         $this->forge->addKey('id_masuk', true);
         $this->forge->createTable('ayam_masuk');
+        $this->db->query('ALTER TABLE ayam_masuk MODIFY createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP');
+        $this->db->query('ALTER TABLE ayam_masuk MODIFY updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
     }
 
     public function down()

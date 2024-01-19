@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\AyamMasuk;
 use App\Models\AyamMati;
 use App\Models\Pengeluaran;
+use App\Models\Penjualan;
 use App\Models\Setoran;
 use App\Models\Piutang;
 use App\Models\Pelanggan;
@@ -27,7 +28,10 @@ class Home extends BaseController
 
     public function ayam_masuk(): string
     {
-        return $this->autoPage('Ayam Masuk', (new AyamMasuk()));
+        return $this->autoPage('Ayam Masuk', (new AyamMasuk()), 
+        '<tr><th rowspan="2">No</th><th rowspan="2">TANGGAL</th><th colspan="3">BESAR</th><th colspan="3">KECIL</th></tr>
+         <tr><th>EKOR</th><th>KG</th><th>KG (TU)</th><th>EKOR</th><th>KG</th><th>KG (TU)</th></tr>0
+        ');
     }
 
     public function ayam_mati(): string

@@ -18,7 +18,7 @@ class FormBuilder
         foreach ($formData as $field) {
             if (isset($field['type'])) {
                 // Tipe elemen formulir yang diizinkan
-                $allowedTypes = ['text', 'number', 'select', 'textarea', 'checkbox', 'email', 'password', 'hidden', 'date', 'radio', 'file', 'url', 'color', 'range'];
+                $allowedTypes = ['text', 'number', 'select', 'textarea', 'checkbox', 'email', 'password', 'hidden', 'date', 'radio', 'file', 'url', 'color', 'range', 'decimal'];
 
                 if (!in_array($field['type'], $allowedTypes)) {
                     // Tipe tidak valid, lewati
@@ -57,12 +57,8 @@ class FormBuilder
             'value' => 'Submit',
             'class' => 'btn btn-primary',
         ]);
-        if ($backUrl) {
-            $backButton = anchor($backUrl, 'Cancel', ['class' => 'btn btn-warning']);
-        }else if ($hidemodal) {
-             $backButton = anchor('#', 'Cancel', ['class' => 'btn btn-warning']);
-        }
-            $form .= $backButton;
+        $backButton = form_button(['name' => 'btnCancel', 'onclick'=>'hideModal()', 'id'=>'btnCancel', 'class'=>'btn btn-warning', 'type' => 'button', 'content' => 'Cancel']);
+        $form .= $backButton;
         $form .= $submit;
         $form .= "</div>";
         // Tambahkan form closing tag
@@ -89,6 +85,14 @@ class FormBuilder
                     'class' => 'form-control',
                     'type' => $type,
                 ]);
+            case 'decimal':
+                    return form_input([
+                            'name'          => $field['name'],
+                            'value'         => isset($field['value']) ?? '', // Optional: set default value
+                            'type'          => 'number',
+                            'step'          => '0.01', // Set the step attribute for decimal places
+                            'class'         => 'form-control', // Optional: add CSS class for styling
+                        ]);
             case 'select':
                 return form_dropdown($field['name'], $field['options'], isset($field['value']) ?? '', 'class="form-control"');
             case 'textarea':

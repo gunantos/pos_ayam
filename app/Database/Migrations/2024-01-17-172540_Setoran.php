@@ -45,17 +45,18 @@ class Setoran extends Migration
             ],
             'createdAt' => [
                 'type' => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
+                'null'=>true
             ],
             'updatedAt' => [
                 'type' => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
-                'on update' => 'CURRENT_TIMESTAMP',
+                'null'=>true
             ],
         ]);
 
         $this->forge->addKey('id_setoran', true);
         $this->forge->createTable('setoran');
+        $this->db->query('ALTER TABLE setoran MODIFY createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP');
+        $this->db->query('ALTER TABLE setoran MODIFY updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
     }
 
     public function down()

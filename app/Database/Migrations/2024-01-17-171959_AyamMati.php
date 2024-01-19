@@ -39,17 +39,18 @@ class AyamMati extends Migration
             ],
             'createdAt' => [
                 'type' => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
+                'null'=>true
             ],
             'updatedAt' => [
                 'type' => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
-                'on update' => 'CURRENT_TIMESTAMP',
+                'null'=>true
             ],
         ]);
 
         $this->forge->addKey('id_mati', true);
         $this->forge->createTable('ayam_mati');
+        $this->db->query('ALTER TABLE ayam_mati MODIFY createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP');
+        $this->db->query('ALTER TABLE ayam_mati MODIFY updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
     }
 
     public function down()

@@ -42,7 +42,7 @@ class Penjualan extends Migration
             ],
             'total_bayar' => [
                 'type' => 'INT',
-                'default' => 'total_rp',
+                'default' => 0,
             ],
             'total_utang' => [
                 'type' => 'INT',
@@ -54,17 +54,18 @@ class Penjualan extends Migration
             ],
             'createdAt' => [
                 'type' => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
+                'null' => true,
             ],
             'updatedAt' => [
                 'type' => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
-                'on update' => 'CURRENT_TIMESTAMP',
+                'null' => true,
             ],
         ]);
 
         $this->forge->addKey('id_penjualan', true);
         $this->forge->createTable('penjualan');
+        $this->db->query('ALTER TABLE penjualan MODIFY createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP');
+        $this->db->query('ALTER TABLE penjualan MODIFY updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
     }
 
     public function down()

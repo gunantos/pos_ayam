@@ -2,6 +2,14 @@
 <?= $this->section('head_vendor') ?>
    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/vendors/css/tables/datatable/datatables.min.css') ?>">
 <?= $this->endSection() ?>
+<?= $this->section('head') ?>
+<style>
+  .table thead th{
+        text-align: center;
+    vertical-align: middle;
+  }
+  </style>
+  <?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <section id="ajax">
 	<div class="row">
@@ -25,13 +33,18 @@
 	                
 	                <table class="table table-striped table-bordered ajax-sourced">
 					        <thead>
-					            <tr>
+					          
                               <?php
-                                 foreach($header_table as $key) {
-                                    echo '<th>'. $key['label'] .'</th>';
+                              if (is_array($header_table)) {
+                                echo '<tr>';
+                                 foreach($header_table as $key => $value) {
+                                    echo '<th>'. $value .'</th>';
                                  }
+                                 echo '</tr>';
+                                }else{
+                                  echo $header_table;
+                                }
                               ?>
-					            </tr>
 					        </thead>
 					    </table>
 					</div>
@@ -66,8 +79,11 @@
     $('#add-button').click(function() {
       $('#myModal').modal('show');
     });
-   $(".ajax-sourced").DataTable({
-        ajax: "../../../app-assets/data/datatables/ajax-sourced.json"
+    function hideModal() {
+      $('#myModal').modal('hide');
+    }
+   const dtable = $(".ajax-sourced").DataTable({
+        ajax: '<?= base_url('api/'. $api) ?>'
     });
 </script>
 <?= $this->endSection() ?>

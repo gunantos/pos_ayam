@@ -42,17 +42,20 @@ class Pelanggan extends Migration
             ],
             'createdAt' => [
                 'type' => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
+                'null' => true,
+                'default' => null,
             ],
             'updatedAt' => [
                 'type' => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
-                'on update' => 'CURRENT_TIMESTAMP',
+                'null' => true,
+                'default' => null,
             ],
         ]);
 
         $this->forge->addKey('id_pelanggan', true);
         $this->forge->createTable('pelanggan');
+        $this->db->query('ALTER TABLE pelanggan MODIFY createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP');
+        $this->db->query('ALTER TABLE pelanggan MODIFY updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
     }
 
     public function down()

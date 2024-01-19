@@ -61,7 +61,7 @@ abstract class BaseController extends Controller
         return view('pages/'. $page, $data);
     }
 
-    protected function autoPage(string $title, MyModel $model, array $header_table = [])
+    protected function autoPage(string $title, MyModel $model,  $header_table = [])
     {
         $autoform = new \App\Libraries\FormBuilder();
         $currentUrl = str_replace(base_url(), '', current_url());

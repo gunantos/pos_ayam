@@ -39,17 +39,20 @@ class Omset extends Migration
             ],
             'createdAt' => [
                 'type' => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
+                'null' => true,
+                'default' => null,
             ],
             'updatedAt' => [
                 'type' => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
-                'on update' => 'CURRENT_TIMESTAMP',
+                'null' => true,
+                'default' => null,
             ],
         ]);
 
         $this->forge->addKey('id_omset', true);
         $this->forge->createTable('omset');
+        $this->db->query('ALTER TABLE omset MODIFY createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP');
+        $this->db->query('ALTER TABLE omset MODIFY updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
     }
 
      public function down()

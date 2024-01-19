@@ -29,7 +29,11 @@ class AyamMasuk extends MyModel
                     'required' => 'Wajib diisi',
                     'in_list' => 'Pilih antara 0 atau 1',
                 ],
-                'type' => 'text',
+                'type' => 'select',
+                'options'=>[
+                    '1'=>'Besar',
+                    '0'=>'Kecil'
+                ],
                 'showOnTable' => true,
             ],
             [
@@ -38,6 +42,7 @@ class AyamMasuk extends MyModel
                 'primaryKey' => false,
                 'allowed' => true,
                 'rules' => 'required|valid_date',
+                'value'=>date('Y-m-d'),
                 'rulesMessage' => [
                     'required' => 'Wajib diisi',
                     'valid_date' => 'Format tanggal tidak valid',
@@ -55,7 +60,7 @@ class AyamMasuk extends MyModel
                     'required' => 'Wajib diisi',
                     'numeric' => 'Harus berupa angka',
                 ],
-                'type' => 'text',
+                'type' => 'decimal',
                 'showOnTable' => true,
             ],
             [
@@ -68,7 +73,7 @@ class AyamMasuk extends MyModel
                     'required' => 'Wajib diisi',
                     'numeric' => 'Harus berupa angka',
                 ],
-                'type' => 'text',
+                'type' => 'number',
                 'showOnTable' => true,
             ],
             [
@@ -81,7 +86,7 @@ class AyamMasuk extends MyModel
                     'required' => 'Wajib diisi',
                     'numeric' => 'Harus berupa angka',
                 ],
-                'type' => 'text',
+                'type' => 'decimal',
                 'showOnTable' => true,
             ],
             [
