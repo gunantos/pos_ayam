@@ -78,4 +78,33 @@ abstract class BaseController extends Controller
         ];
         return view('AutoPage', $data);
     }
+public function getData()
+    {
+        $request = service('request');
+        $draw = $request->getVar('draw');
+        $start = $request->getVar('start');
+        $length = $request->getVar('length');
+        $search = $request->getVar('search')['value'];
+
+        $recordsTotal = YourModel::countAll();
+        $recordsFiltered = $recordsTotal;
+
+        $data = YourModel::select('*');
+
+        if (!empty($search)) {
+            $data->like('column_name', $search);
+            $recordsFiltered = $data->countAllResults(false);
+        }
+
+        $data->limit($length, $start);
+
+        $output = [
+            'draw' => $draw,
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered,
+            'data' => $data->findAll(),
+        ];
+
+        return $this->response->setJSON($output);
+    }
 }
