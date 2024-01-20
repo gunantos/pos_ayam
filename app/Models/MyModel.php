@@ -37,6 +37,9 @@ class MyModel extends Model implements MyModel_interface {
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    public function allowedFileds() {
+        return $this->allowedFields();
+    }
     public function showOnTable() {
         return $this->showOnTable;
     }
@@ -99,7 +102,7 @@ class MyModel extends Model implements MyModel_interface {
          }
     }
 
-    public function saveData($data)
+    public function saveData($data, $id = '')
     {
         // Cek apakah 'id_user' termasuk dalam allowedFields
         if (in_array('id_user', $this->allowedFields)) {
@@ -116,10 +119,23 @@ class MyModel extends Model implements MyModel_interface {
         if (!$this->validate($this->validationRules, $this->validationMessages)) {
             return false;
         }
+        if (!empty($id)) 
+        {
+            if ($this->update([$this->primaryKey => $id], $data))
+            {
+                return $id;
+            }else{
+                return false;
+            }
 
-        // Lakukan proses insert data
-        $this->insert($data);
-
+        }else{
+            if($this->insert($data))
+            {
+                return $this->getInsertID();
+            }else{
+                return false;
+            }
+        }
         // Kembalikan ID dari data yang baru saja di-insert
         return $this->getInsertID();
     }
