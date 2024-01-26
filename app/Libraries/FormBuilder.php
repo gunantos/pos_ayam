@@ -44,7 +44,7 @@ class FormBuilder
                 $i = 0;
                 foreach($field['item_form'] as $fld) {
                     if ($i == 0) {
-                        $form_row .="<div class='col-12 col-sm-6'><div class='card border-primary'><h5 class='card-header'>". $field['name'] ."</h5><div class='card-body'>";
+                        $form_row .="<div class='col-12 col-sm-6'><div class='card border-primary'><h5 class='card-header border-bottom-primary p-1 bg-primary text-white'>". $field['name'] ."</h5><div class='card-body'>";
                         $form_row .= self::createFormData($fld);
                     } else if ($i == (sizeof($field['item_form']) - 1)) {
                         $form_row .= self::createFormData($fld);
