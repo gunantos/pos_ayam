@@ -15,21 +15,30 @@ class AyamMasuk extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'type' => [
-                'type' => 'INT',
-                'constraint' => 1,
-            ],
             'tanggal' => [
                 'type' => 'DATE',
             ],
-            'berat' => [
+            'besar_berat' => [
                 'type' => 'FLOAT',
                 'constraint' => '5,2',
             ],
-            'ekor' => [
+            'besar_ekor' => [
                 'type' => 'INT',
             ],
-            'kg_tu' => [
+            'besar_kg_tu' => [
+                'type' => 'FLOAT',
+                'constraint' => '5,2',
+                'null'=>true,
+                'default'=>null
+            ],
+            'kecil_berat' => [
+                'type' => 'FLOAT',
+                'constraint' => '5,2',
+            ],
+            'kecil_ekor' => [
+                'type' => 'INT',
+            ],
+            'kecil_kg_tu' => [
                 'type' => 'FLOAT',
                 'constraint' => '5,2',
                 'null'=>true,

@@ -77,7 +77,7 @@ class Pengeluaran extends MyModel
                 'primaryKey' => false,
                 'allowed' => true,
                 'type' => 'none',
-                'showOnTable' => true,
+                'showOnTable' => false,
             ],
         ];
     }

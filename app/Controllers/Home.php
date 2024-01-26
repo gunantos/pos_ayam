@@ -6,7 +6,7 @@ use App\Models\AyamMati;
 use App\Models\Pengeluaran;
 use App\Models\Penjualan;
 use App\Models\Setoran;
-use App\Models\Piutang;
+use App\Models\Keuangan;
 use App\Models\Pelanggan;
 use App\Models\Omset;
 
@@ -19,36 +19,30 @@ class Home extends BaseController
     
     public function penjualan(): string
     {
-        $data = [
-            'title'=>'Penjualan',
-            'model'=>new Penjualan()
-        ];
-        return $this->_render('AutoPage', $data);
+        return $this->autoPage('Penjualan', (new Penjualan()), '');
     }
 
     public function ayam_masuk(): string
     {
         return $this->autoPage('Ayam Masuk', (new AyamMasuk()), 
-        '<tr><th rowspan="2">No</th><th rowspan="2">TANGGAL</th><th colspan="3">BESAR</th><th colspan="3">KECIL</th></tr>
-         <tr><th>EKOR</th><th>KG</th><th>KG (TU)</th><th>EKOR</th><th>KG</th><th>KG (TU)</th></tr>0
-        ');
+        '');
     }
 
     public function ayam_mati(): string
     {
-        return $this->autoPage('Ayam Mati', (new AyamMasuk()));
+        return $this->autoPage('Ayam Mati', (new AyamMati()));
     }
 
     public function omset(): string
     {
-        return $this->autoPage('Omset', (new AyamMasuk()));
+        return $this->autoPage('Omset', (new Omset()));
     }
     public function pengeluaran(): string
     {
-       return $this->autoPage('Pengeluaran', (new AyamMasuk()));
+       return $this->autoPage('Pengeluaran', (new Pengeluaran()));
     }
     public function keuangan(): string
     {
-        return $this->_render('keuangan');
+       return $this->autoPage('Keuangan', (new Keuangan()));
     }
 }

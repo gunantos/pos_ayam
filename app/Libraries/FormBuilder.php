@@ -4,25 +4,90 @@ namespace App\Libraries;
 
 class FormBuilder
 {
+    protected static $allowedTypes = ['text', 'number', 'select', 'textarea', 'checkbox', 'email', 'password', 'hidden', 'date', 'radio', 'file', 'url', 'color', 'range', 'decimal'];
     public static function createForm($formData, $backUrl = null, $hidemodal = false)
     {
         helper(['form']);
 
-        $validation = \Config\Services::validation();
         $formData = $formData;
+        
+
 
         // Buat form opening tag
         $form = form_open('#', ['class'=>'', 'id'=>'formData']);
+        $onform = [];
+        foreach($formData as $key) {
+            $showon =false;
+            if (\in_array($key['type'], self::$allowedTypes)) {
+                $showon = true;
+            }
+            if ($showon) {
+                if (isset($key['group_input']) && !empty($key['group_input'])) {
+                    $findindex = array_search($key['group_input'], array_column($onform, 'name'));
+                    if ($findindex !== false) {
+                        $onform[$findindex]['item_form'][] = $key;
+                    } else {
+                        $onform[] = ['name'=>$key['group_input'], 'item_form'=>[$key]];
+                    }
+                                        
+                } else {
+                    $onform[] = $key;
+                }
+            }
+        }
 
         // Loop melalui array formData untuk membuat input fields
-        foreach ($formData as $field) {
+
+        $form_row = '';
+        foreach ($onform as $field) {
+            if (isset($field['item_form'])) {
+                $i = 0;
+                foreach($field['item_form'] as $fld) {
+                    if ($i == 0) {
+                        $form_row .="<div class='col-12 col-sm-6'><div class='card border-primary'><h5 class='card-header'>". $field['name'] ."</h5><div class='card-body'>";
+                        $form_row .= self::createFormData($fld);
+                    } else if ($i == (sizeof($field['item_form']) - 1)) {
+                        $form_row .= self::createFormData($fld);
+                        $form_row .= '</div></div></div>';
+                    } else {
+                        $form_row .= self::createFormData($fld);
+                    }
+                    $i++;
+                }
+            } else {
+                $form .= self::createFormData($field);
+            }
+        }
+
+        if (!empty($form_row)) {
+            $form .= '<div class="row">'. $form_row .'</div>';
+        }
+        $form .= '<div class="d-flex justify-content-between">';
+        // Tambahkan tombol submit
+        $submit = form_submit([
+            'name' => 'submit',
+            'value' => 'Submit',
+            'class' => 'btn btn-primary',
+        ]);
+        $backButton = form_button(['name' => 'btnCancel', 'onclick'=>'hideModal()', 'id'=>'btnCancel', 'class'=>'btn btn-warning', 'type' => 'button', 'content' => 'Cancel']);
+        $form .= $backButton;
+        $form .= $submit;
+        $form .= "</div>";
+        // Tambahkan form closing tag
+        $form .= form_close();
+
+        return $form;
+    }
+
+    protected static function createFormData($field) {
+        $validation = \Config\Services::validation();
+        $form = '';
             if (isset($field['type'])) {
                 // Tipe elemen formulir yang diizinkan
-                $allowedTypes = ['text', 'number', 'select', 'textarea', 'checkbox', 'email', 'password', 'hidden', 'date', 'radio', 'file', 'url', 'color', 'range', 'decimal'];
-
-                if (!in_array($field['type'], $allowedTypes)) {
+                
+                if (!in_array($field['type'], self::$allowedTypes)) {
                     // Tipe tidak valid, lewati
-                    continue;
+                    return '';
                 }
 
                 // Validasi apakah setiap field memiliki konfigurasi yang benar
@@ -48,25 +113,8 @@ class FormBuilder
                     $form .= "</div>";
                 }
             }
-        }
-
-        $form .= '<div class="d-flex justify-content-between">';
-        // Tambahkan tombol submit
-        $submit = form_submit([
-            'name' => 'submit',
-            'value' => 'Submit',
-            'class' => 'btn btn-primary',
-        ]);
-        $backButton = form_button(['name' => 'btnCancel', 'onclick'=>'hideModal()', 'id'=>'btnCancel', 'class'=>'btn btn-warning', 'type' => 'button', 'content' => 'Cancel']);
-        $form .= $backButton;
-        $form .= $submit;
-        $form .= "</div>";
-        // Tambahkan form closing tag
-        $form .= form_close();
-
         return $form;
     }
-
     protected static function createElement($type, $field)
     {
         switch ($type) {

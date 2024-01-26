@@ -4,37 +4,106 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Penjualan extends Model
+class Penjualan extends MyModel
 {
-    protected $table            = 'penjualans';
-    protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
-    protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
-    protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $table = 'penjualan';
 
-    // Dates
-    protected $useTimestamps = false;
-    protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
-
-    // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
-    protected $skipValidation       = false;
-    protected $cleanValidationRules = true;
-
-    // Callbacks
-    protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+    public function myfields(): array
+    {
+        return [
+            [
+                'name' => 'id_penjualan',
+                'label' => 'ID',
+                'primaryKey' => true,
+                'allowed' => false,
+                'type' => 'hidden',
+                'showOnTable' => true,
+            ],
+            [
+                'name' => 'tanggal',
+                'label' => 'Tanggal',
+                'primaryKey' => false,
+                'allowed' => true,
+                'rules' => 'required|valid_date',
+                'rulesMessage' => [
+                    'required' => 'Wajib diisi',
+                    'valid_date' => 'Format tanggal tidak valid',
+                ],
+                'type' => 'date',
+                'showOnTable' => true,
+            ],
+            [
+                'name' => 'besar_jumlah',
+                'label' => 'Ekor',
+                'primaryKey' => false,
+                'group_input'=>'BESAR',
+                'group_table'=>'Besar',
+                'allowed' => true,
+                'allowed_search'=>true,
+                'rules' => 'required|numeric',
+                'rulesMessage' => [
+                    'required' => 'Wajib diisi',
+                    'numeric' => 'Harus berupa angka',
+                ],
+                'type' => 'number',
+                'showOnTable' => true,
+            ],
+            [
+                'name' => 'besar_berat',
+                'label' => 'Berat',
+                'group_input'=>'BESAR',
+                'group_table'=>'Besar',
+                'primaryKey' => false,
+                'allowed' => true,
+                'allowed_search'=>true,
+                'rules' => 'required|numeric',
+                'rulesMessage' => [
+                    'required' => 'Wajib diisi',
+                    'numeric' => 'Harus berupa angka',
+                ],
+                'type' => 'decimal',
+                'showOnTable' => true,
+            ],
+            [
+                'name' => 'kecil_jumlah',
+                'label' => 'Ekor',
+                'primaryKey' => false,
+                'group_input'=>'KECIL',
+                'group_table'=>'KECIL',
+                'allowed' => true,
+                'allowed_search'=>true,
+                'rules' => 'required|numeric',
+                'rulesMessage' => [
+                    'required' => 'Wajib diisi',
+                    'numeric' => 'Harus berupa angka',
+                ],
+                'type' => 'number',
+                'showOnTable' => true,
+            ],
+            [
+                'name' => 'kecil_berat',
+                'label' => 'Berat',
+                'primaryKey' => false,
+                'group_input'=>'KECIL',
+                'group_table'=>'KECIL',
+                'allowed' => true,
+                'allowed_search'=>true,
+                'rules' => 'required|numeric',
+                'rulesMessage' => [
+                    'required' => 'Wajib diisi',
+                    'numeric' => 'Harus berupa angka',
+                ],
+                'type' => 'decimal',
+                'showOnTable' => true,
+            ],
+            [
+                'name' => 'id_users',
+                'label' => 'ID User',
+                'primaryKey' => false,
+                'allowed' => true,
+                'type' => 'none',
+                'showOnTable' => false,
+            ],
+        ];
+    }
 }

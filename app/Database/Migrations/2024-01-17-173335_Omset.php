@@ -26,12 +26,6 @@ class Omset extends Migration
                 'type' => 'INT',
                 'default' => 0,
             ],
-            'keterangan' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
-                'null' => true,
-                'default' => null,
-            ],
             'id_users' => [
                 'type' => 'INT',
                 'null' => true,

@@ -4,15 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class AyamMati extends MyModel
+class Keuangan extends MyModel
 {
-    protected $table            = 'ayam_mati';
-     public function myfields(): array
+    protected $table = 'keuangan';
+
+    public function myfields(): array
     {
         return [
             [
-                'name' => 'id_mati',
-                'label' => 'ID Mati',
+                'name' => 'id_keuangan',
+                'label' => 'ID',
                 'primaryKey' => true,
                 'allowed' => false,
                 'type' => 'hidden',
@@ -32,8 +33,8 @@ class AyamMati extends MyModel
                 'showOnTable' => true,
             ],
             [
-                'name' => 'besar_jumlah',
-                'label' => 'Jumlah',
+                'name' => 'setoran_tunai',
+                'label' => 'Setoran Tunai',
                 'primaryKey' => false,
                 'allowed' => true,
                 'rules' => 'required|numeric',
@@ -43,24 +44,12 @@ class AyamMati extends MyModel
                 ],
                 'type' => 'text',
                 'showOnTable' => true,
-                'group_input'=>'BESAR',
-                'group_table'=>'BESAR',
+                'group_input'=>'SETORAN',
+                'group_table'=>'SETORAN',
             ],
             [
-                'name' => 'besar_berat',
-                'label' => 'Berat',
-                'primaryKey' => false,
-                'allowed' => true,
-                'rules' => 'numeric',
-                'rulesMessage' => ['numeric' => 'Harus berupa angka'],
-                'type' => 'text',
-                'showOnTable' => true,
-                'group_input'=>'BESAR',
-                'group_table'=>'BESAR',
-            ],
-            [
-                'name' => 'kecil_jumlah',
-                'label' => 'Jumlah',
+                'name' => 'setoran_transfer',
+                'label' => 'Setoran Transfer',
                 'primaryKey' => false,
                 'allowed' => true,
                 'rules' => 'required|numeric',
@@ -70,20 +59,38 @@ class AyamMati extends MyModel
                 ],
                 'type' => 'text',
                 'showOnTable' => true,
-                'group_input'=>'KECIL',
-                'group_table'=>'KECIL',
+                'group_input'=>'SETORAN',
+                'group_table'=>'SETORAN',
             ],
             [
-                'name' => 'kecil_berat',
-                'label' => 'Berat',
+                'name' => 'piutang_tunai',
+                'label' => 'Piutang Tunai',
                 'primaryKey' => false,
                 'allowed' => true,
-                'rules' => 'numeric',
-                'rulesMessage' => ['numeric' => 'Harus berupa angka'],
+                'rules' => 'required|numeric',
+                'rulesMessage' => [
+                    'required' => 'Wajib diisi',
+                    'numeric' => 'Harus berupa angka',
+                ],
                 'type' => 'text',
                 'showOnTable' => true,
-                'group_input'=>'KECIL',
-                'group_table'=>'KECIL',
+                'group_input'=>'PIUTANG',
+                'group_table'=>'PIUTANG',
+            ],
+            [
+                'name' => 'piutang_transfer',
+                'label' => 'Piutang Transfer',
+                'primaryKey' => false,
+                'allowed' => true,
+                'rules' => 'required|numeric',
+                'rulesMessage' => [
+                    'required' => 'Wajib diisi',
+                    'numeric' => 'Harus berupa angka',
+                ],
+                'type' => 'text',
+                'showOnTable' => true,
+                'group_input'=>'PIUTANG',
+                'group_table'=>'PIUTANG',
             ],
             [
                 'name' => 'id_users',

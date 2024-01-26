@@ -4,12 +4,12 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Penjualan extends Migration
+class Keuangan extends Migration
 {
     public function up()
     {
         $this->forge->addField([
-            'id_penjualan' => [
+            'id_keuangan' => [
                 'type' => 'INT',
                 'constraint' => 5,
                 'unsigned' => true,
@@ -18,46 +18,47 @@ class Penjualan extends Migration
             'tanggal' => [
                 'type' => 'DATE',
             ],
-            'besar_jumlah' => [
+            'setoran_tunai' => [
                 'type' => 'INT',
                 'default' => 0,
             ],
-            'besar_berat' => [
-                'type' => 'FLOAT',
-                'constraint' => '5,2',
-                'default' => 0,
-            ],
-            'kecil_jumlah' => [
+            'setoran_transfer' => [
                 'type' => 'INT',
                 'default' => 0,
             ],
-            'kecil_berat' => [
-                'type' => 'FLOAT',
-                'constraint' => '5,2',
+            'piutang_tunai' => [
+                'type' => 'INT',
                 'default' => 0,
             ],
-            'id_users' => [
+            'piutang_transfer' => [
+                'type' => 'INT',
+                'default' => 0,
+            ],
+            'id_user' => [
                 'type' => 'INT',
                 'null' => true,
+                'default' => null,
             ],
             'createdAt' => [
                 'type' => 'TIMESTAMP',
                 'null' => true,
+                'default' => null,
             ],
             'updatedAt' => [
                 'type' => 'TIMESTAMP',
                 'null' => true,
+                'default' => null,
             ],
         ]);
 
-        $this->forge->addKey('id_penjualan', true);
-        $this->forge->createTable('penjualan');
-        $this->db->query('ALTER TABLE penjualan MODIFY createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP');
-        $this->db->query('ALTER TABLE penjualan MODIFY updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+        $this->forge->addKey('id_keuangan', true);
+        $this->forge->createTable('keuangan');
+        $this->db->query('ALTER TABLE keuangan MODIFY createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP');
+        $this->db->query('ALTER TABLE keuangan MODIFY updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
     }
 
     public function down()
     {
-        $this->forge->dropTable('penjualan');
+        $this->forge->dropTable('keuangan');
     }
 }

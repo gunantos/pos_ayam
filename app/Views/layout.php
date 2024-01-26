@@ -128,9 +128,10 @@
     <!-- ////////////////////////////////////////////////////////////////////////////-->
 
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="<?= base_url('assets/vendors/js/vendors.min.js') ?>"></script>
     <script src="<?= base_url('assets/vendors/js/ui/prism.min.js') ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <?= $this->renderSection('script_vendor') ?>
     <script src="<?= base_url('assets/js/core/app-menu.js') ?>"></script>
     <script src="<?= base_url('assets/js/core/app.js') ?>"></script>

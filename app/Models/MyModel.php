@@ -16,9 +16,9 @@ class MyModel extends Model implements MyModel_interface {
     // Dates
     protected $useTimestamps = true; 
     protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    protected $createdField  = 'createdAt';
+    protected $updatedField  = 'updatedAt';
+    protected $deletedField  = 'deletedAt';
 
     // Validation
     protected $validationRules = []; 
@@ -38,7 +38,7 @@ class MyModel extends Model implements MyModel_interface {
     protected $afterDelete    = [];
 
     public function allowedFileds() {
-        return $this->allowedFields();
+        return $this->allowedFields;
     }
     public function showOnTable() {
         return $this->showOnTable;
@@ -113,11 +113,6 @@ class MyModel extends Model implements MyModel_interface {
                 // Misalnya, Anda dapat menggunakan cara berikut untuk mendapatkan id user dari Myth: auth()->id
                 $data['id_user'] = auth()->id ?? null;
             }
-        }
-
-        // Lakukan validasi sebelum menyimpan data
-        if (!$this->validate($this->validationRules, $this->validationMessages)) {
-            return false;
         }
         if (!empty($id)) 
         {

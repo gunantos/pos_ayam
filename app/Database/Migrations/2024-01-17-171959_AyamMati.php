@@ -15,22 +15,28 @@ class AyamMati extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'type' => [
-                'type' => 'INT',
-                'constraint' => 1,
+            'tanggal' => [
+                'type' => 'DATE',
             ],
-            'jumlah' => [
+            'besar_jumlah' => [
                 'type' => 'INT',
                 'default' => 0,
             ],
-            'berat' => [
+            'besar_berat' => [
                 'type' => 'FLOAT',
                 'constraint' => '5,2',
                 'null' => true,
                 'default' => null,
             ],
-            'tanggal' => [
-                'type' => 'DATE',
+            'kecil_jumlah' => [
+                'type' => 'INT',
+                'default' => 0,
+            ],
+            'kecil_berat' => [
+                'type' => 'FLOAT',
+                'constraint' => '5,2',
+                'null' => true,
+                'default' => null,
             ],
             'id_user' => [
                 'type' => 'INT',

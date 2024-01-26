@@ -59,22 +59,12 @@ class Omset extends MyModel
                 'showOnTable' => true,
             ],
             [
-                'name' => 'keterangan',
-                'label' => 'Keterangan',
-                'primaryKey' => false,
-                'allowed' => true,
-                'rules' => 'max_length[255]',
-                'rulesMessage' => ['max_length' => 'Maksimal 255 karakter'],
-                'type' => 'textarea',
-                'showOnTable' => true,
-            ],
-            [
                 'name' => 'id_users',
                 'label' => 'ID User',
                 'primaryKey' => false,
                 'allowed' => true,
                 'type' => 'none',
-                'showOnTable' => true,
+                'showOnTable' => false,
             ],
         ];
     }
