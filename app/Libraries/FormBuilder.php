@@ -91,10 +91,13 @@ class FormBuilder
                 }
 
                 // Validasi apakah setiap field memiliki konfigurasi yang benar
-                if (isset($field['name']) && isset($field['label']) && isset($field['rules'])) {
-
+                if (isset($field['name']) && isset($field['label'])) {
+                    if ($field['type'] == 'hidden') {
+                        $label = '';
+                    } else {
                     // Buat label
                     $label = form_label($field['label'], $field['name']);
+                    }
 
                     // Tipe elemen formulir
                     $type = $field['type'];
@@ -129,6 +132,7 @@ class FormBuilder
             case 'range':
                 return form_input([
                     'name' => $field['name'],
+                    'id' => $field['name'],
                     'value' => isset($field['value']) ?? '',
                     'class' => 'form-control',
                     'type' => $type,
@@ -136,6 +140,7 @@ class FormBuilder
             case 'decimal':
                     return form_input([
                             'name'          => $field['name'],
+                            'id' => $field['name'],
                             'value'         => isset($field['value']) ?? '', // Optional: set default value
                             'type'          => 'number',
                             'step'          => '0.01', // Set the step attribute for decimal places
@@ -146,24 +151,28 @@ class FormBuilder
             case 'textarea':
                 return form_textarea([
                     'name' => $field['name'],
+                    'id' => $field['name'],
                     'value' => isset($field['value']) ?? '',
                     'class' => 'form-control',
                 ]);
             case 'checkbox':
                 return form_checkbox([
                     'name' => $field['name'],
+                    'id' => $field['name'],
                     'value' => $field['value'] ?? '',
                     'checked' => $validation->set_checkbox($field['name'], $field['value'] ?? ''),
                 ]);
             case 'radio':
                 return form_radio([
                     'name' => $field['name'],
+                    'id' => $field['name'],
                     'value' => $field['value'] ?? '',
                     'checked' => $validation->set_radio($field['name'], $field['value'] ?? ''),
                 ]);
             case 'file':
                 return form_upload([
                     'name' => $field['name'],
+                    'id' => $field['name'],
                     'value' => isset($field['value']) ?? '',
                     'class' => 'form-control-file',
                 ]);

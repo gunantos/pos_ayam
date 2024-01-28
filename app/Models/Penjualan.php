@@ -62,6 +62,7 @@ class Penjualan extends MyModel
                     'numeric' => 'Harus berupa angka',
                 ],
                 'type' => 'decimal',
+                'onGrafik'=>true,
                 'showOnTable' => true,
             ],
             [
@@ -94,10 +95,11 @@ class Penjualan extends MyModel
                     'numeric' => 'Harus berupa angka',
                 ],
                 'type' => 'decimal',
+                'onGrafik'=>true,
                 'showOnTable' => true,
             ],
             [
-                'name' => 'id_users',
+                'name' => 'id_user',
                 'label' => 'ID User',
                 'primaryKey' => false,
                 'allowed' => true,

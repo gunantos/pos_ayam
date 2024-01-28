@@ -43,6 +43,7 @@ class Pengeluaran extends MyModel
                     'numeric' => 'Harus berupa angka',
                 ],
                 'type' => 'text',
+                'onGrafik'=>true,
                 'showOnTable' => true,
             ],
             [
@@ -56,6 +57,7 @@ class Pengeluaran extends MyModel
                     'numeric' => 'Harus berupa angka',
                 ],
                 'type' => 'text',
+                'onGrafik'=>true,
                 'showOnTable' => true,
             ],
             [
@@ -69,10 +71,11 @@ class Pengeluaran extends MyModel
                     'numeric' => 'Harus berupa angka',
                 ],
                 'type' => 'text',
+                'onGrafik'=>true,
                 'showOnTable' => true,
             ],
             [
-                'name' => 'id_users',
+                'name' => 'id_user',
                 'label' => 'ID User',
                 'primaryKey' => false,
                 'allowed' => true,

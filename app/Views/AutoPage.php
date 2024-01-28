@@ -29,7 +29,7 @@
 	                </div>
 	            </div>
 	            <div class="card-content collpase show">
-	                <div class="card-body card-dashboard">
+	                <div class="card-body card-dashboard table-responsive">
 	                
 	                <table class="table table-striped table-bordered ajax-sourced">
 					        <thead>
@@ -124,6 +124,7 @@
 <?= $this->endSection() ?>
 <?= $this->section('script') ?>
 <script>
+      const Primary = "<?= $model->primaryKey() ?>";
     $('#myModal').on('hide.bs.modal', function(event) {
          $('#staticBackdropLabel').html('Tambah Data');
          document.getElementById("formData").reset();
@@ -137,10 +138,13 @@
   const colmntable = <?= json_encode($clmDatatable) ?>;
   colmntable.push({
     data: null,
-     render:function() {
-                              return '<button class="btn btn-sm btn-warning edit-btn">Edit</button> <button class="btn btn-sm btn-danger delete-btn">Delete</button>';
-                           }
+     render:function(row) {
+      console.log(row);
+        return `<button class="btn btn-sm btn-warning edit-btn" onclick="edit('${btoa(JSON.stringify(row))}')">Edit</button> 
+        <button class="btn btn-sm btn-danger delete-btn"  onclick="hapus('${btoa(JSON.stringify(row))}')">Delete</button>`;
+      }
   })
+  
    const dtable = $(".ajax-sourced").DataTable({
         ajax: '<?= base_url('api/'. $api) ?>',
         processing: true,
@@ -150,14 +154,19 @@
     const form = document.getElementById('formData');
     form.addEventListener('submit', function(e) {
       e.preventDefault();
+      const idd = document.getElementById(Primary);
+      let id = '';
+      if (idd !== undefined && idd !== null && idd !== '') {
+        id = idd.value;
+      }
       var formData = new FormData(form);
-      fetch('<?= base_url('api/'. $api) ?>', {
+      fetch('<?= base_url('api/'. $api) ?>' + '/'+ id, {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
-                Swal.fire({
+                swal({
                   position: "top-end",
                   icon: data.status ? "success" : "error",
                   title: data.message,
@@ -167,9 +176,10 @@
                 if (data.status) {
                   dtable.ajax.reload();
                 }
+                hideModal();
             })
             .catch(error => {
-                Swal.fire({
+                swal({
                   position: "top-end",
                   icon: "error",
                   title: "Gagal Menambahkan data",
@@ -178,5 +188,65 @@
                 });
             });
     });
+    function edit(row) {
+      row = atob(row);
+      row = JSON.parse(row);
+      for (const [key, val] of Object.entries(row)) {
+        let itm = document.getElementById(key);
+        if (itm !== undefined && itm !== null && itm !== '') {
+          itm.value = val;
+        }
+      }
+      
+      $('#myModal').modal('show');
+    }
+    function hapus(row) {
+      row = atob(row);
+      row = JSON.parse(row);
+      let id = row[Primary];
+      if (id == null || id == undefined || id == '') {
+        swal("Cancel!", "Tentukan data yang ingin dihapus", "error");
+        return;
+      }
+      swal({
+        title: "Apakah anda yakin ingin menghapus data "+ row[Primary] +" ?",
+        buttons: {
+                cancel: {
+                    text: "No, cancel !",
+                    value: null,
+                    visible: true,
+                    className: "btn-warning",
+                    closeModal: true,
+                },
+                confirm: {
+                    text: "Yes, delete it!",
+                    value: true,
+                    visible: true,
+                    className: "btn-danger",
+                    closeModal: false
+                }
+              },
+      }).then(result => {
+        console.log(result);
+        if (result) {
+          fetch('<?= base_url('api/'. $api .'/delete/') ?>' + id, {
+                      method: 'POST',
+                      body: formData
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                    swal(data.status ? "success" : "error", data.message, data.status ? "success" : "error");
+                      
+                      if (data.status) {
+                        dtable.ajax.reload();
+                      }
+                      hideModal();
+                  })
+                  .catch(error => {
+                      swal("Cancel!", "Gagal menghapus data", "error");
+                  });
+        }
+      });
+    }
 </script>
 <?= $this->endSection() ?>

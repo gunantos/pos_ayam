@@ -12,6 +12,7 @@ use App\Models\Omset;
 
 class Api extends BaseController
 {
+
     private function respond($status, $message, $data = null)
     {
         return $this->response->setStatusCode(200)->setJSON(['status'=>$status, 'message'=>$message, 'data'=>$data]);
@@ -24,16 +25,19 @@ class Api extends BaseController
             $cls .= ucfirst($nm[$i]);
         }
         if (empty($cls)) {
-            return $this->respond(false, 'Fungsi tidak diketahui');
+           throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         $cls = '\\App\\Models\\'. $cls;
         if (!class_exists($cls)) {
-            return $this->respond(false, 'Metode tidak diketahui');
-                }
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
         return (new $cls());
     }
 
     public function delete($fungsi, $id) {
+        if (empty($id)) {
+             return $this->response->setStatusCode(200)->setJSON(['status'=>false, 'message'=>'Tentukan data yang ingin dihapus']);
+        }
         $model = $this->initModel($fungsi);
         if ($model->delete($id)) {
             return $this->response->setStatusCode(200)->setJSON(['status'=>true, 'message'=>'Berhasil menghapus data']);
@@ -55,6 +59,9 @@ class Api extends BaseController
             $f = 'Menambahkan';
         } else {
             $f = 'Mengubah';
+        }
+        if (sizeof($data) < 1) {
+            return $this->response->setStatusCode(200)->setJSON(['status'=>false, 'message'=>'Data masih kosong']);
         }
         if ($model->saveData($data, $id)) {
             return $this->response->setStatusCode(200)->setJSON(['status'=>true, 'message'=>'Berhasil '. $f .' Data']);
@@ -131,6 +138,17 @@ class Api extends BaseController
                 'recordsFiltered' => $totalData, // Untuk sederhana, sama dengan totalData
                 'data'            => $result,
             ]);
+        }
+    }
+    
+    public function chartDashboard($fungsi) {
+        $model = $this->initModel($fungsi);
+        if (method_exists($model, 'grafikHarian') && method_exists($model, 'grafikBulanan')) {
+            $harian = $model->grafikHarian();
+            $bulan = $model->grafikBulanan();
+            return $this->response->setStatusCode(200)->setJSON(['status'=>true, 'harian'=>$harian, 'bulan'=>$bulan]);
+        } else {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
     }
 }

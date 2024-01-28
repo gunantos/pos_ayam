@@ -37,6 +37,8 @@ class MyModel extends Model implements MyModel_interface {
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    protected $fieldOnGrafik = [];
+
     public function allowedFileds() {
         return $this->allowedFields;
     }
@@ -82,11 +84,17 @@ class MyModel extends Model implements MyModel_interface {
         }
     }
 
+    public function primaryKey() {
+        return $this->primaryKey;
+    }
+
     protected function processFieldDefinition($field)
     {
         $fieldName = $field['name'];
         if (isset($field['primaryKey'])) {
-        $this->primaryKey = $field['primaryKey'] ?? $this->primaryKey;
+        if (isset($field['primaryKey']) && $field['primaryKey']) {
+            $this->primaryKey = $fieldName;
+        }
         }
         if (isset($field['allowed']) && $field['allowed']) {
             $this->allowedFields[] = $fieldName;
@@ -99,6 +107,9 @@ class MyModel extends Model implements MyModel_interface {
          }
          if (isset($field['showOnTable']) && $field['showOnTable']) {
             $this->showOnTable[] = $field['showOnTable'];
+         }
+         if (isset($field['onGrafik']) && $field['onGrafik']) {
+            $this->fieldOnGrafik[] = $fieldName;
          }
     }
 
@@ -133,5 +144,71 @@ class MyModel extends Model implements MyModel_interface {
         }
         // Kembalikan ID dari data yang baru saja di-insert
         return $this->getInsertID();
+    }
+
+    
+    public function grafikHarian($bulan='') {
+        if (empty($bulan)) {
+            $bulan = date('m');
+        }
+        $sql = '';
+        $label = [];
+
+        for($i = 0; $i < sizeof($this->fieldOnGrafik); $i++) {
+            $sql .= 'SUM('. $this->fieldOnGrafik[$i] .') as '. $this->fieldOnGrafik[$i];
+            $tm = explode('_', $this->fieldOnGrafik[$i]);
+            $label[] = ucfirst($tm[0]);
+            if ($i != sizeof($this->fieldOnGrafik) -1 ) {
+                $sql .= ', ';
+            }
+        }
+        $query = $this->select('tanggal, '. $sql)
+                      ->where('MONTH(tanggal)', $bulan)
+                      ->groupBy('tanggal')
+                      ->get();
+        $result =  $query->getResultArray();
+        $title = array_merge(['Tanggal'], $label);
+        $hasil = [$title];
+
+        foreach($result as $key) {
+            $temp = [$key['tanggal']];
+            for($i = 0; $i < sizeof($this->fieldOnGrafik); $i++) {
+                array_push($temp, (float) $key[$this->fieldOnGrafik[$i]]);
+            }
+            array_push($hasil, $temp);
+        }
+        return $hasil;
+    }
+
+    public function grafikBulanan($tahun='') {
+        if (empty($tahun)) {
+            $tahun = date('Y');
+        }
+         $sql = '';
+        $label = [];
+        for($i = 0; $i < sizeof($this->fieldOnGrafik); $i++) {
+            $sql .= 'SUM('. $this->fieldOnGrafik[$i] .') as '. $this->fieldOnGrafik[$i];
+            $tm = explode('_', $this->fieldOnGrafik[$i]);
+            $label[] = ucfirst($tm[0]);
+            if ($i != sizeof($this->fieldOnGrafik) -1 ) {
+                $sql .= ', ';
+            }
+        }
+        $query = $this->select('MONTH(tanggal) as bulan, '. $sql)
+                      ->where('YEAR(tanggal)', $tahun)
+                      ->groupBy('bulan')
+                      ->get();
+        $result =  $query->getResultArray();
+        $title = array_merge(['Bulan'], $label);
+        $hasil = [$title];
+
+        foreach($result as $key) {
+            $temp = [$key['bulan']];
+            for($i = 0; $i < sizeof($this->fieldOnGrafik); $i++) {
+                array_push($temp, (float) $key[$this->fieldOnGrafik[$i]]);
+            }
+            array_push($hasil, $temp);
+        }
+        return $hasil;
     }
 }
