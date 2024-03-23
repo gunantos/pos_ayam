@@ -1,5 +1,7 @@
 <?php
-
+Header('Access-Control-Allow-Origin: *'); //for allow any domain, insecure
+                Header('Access-Control-Allow-Headers: *'); //for allow any headers, insecure
+                Header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE'); //method allowed
 // Check PHP version.
 $minPhpVersion = '7.4'; // If you update this, don't forget to update `spark`.
 if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {

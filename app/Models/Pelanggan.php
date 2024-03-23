@@ -17,7 +17,7 @@ class Pelanggan extends MyModel
                 'primaryKey' => true,
                 'allowed' => false,
                 'type' => 'hidden',
-                'showOnTable' => true,
+                'showOnTable' => false,
             ],
             [
                 'name' => 'nama_pelanggan',

@@ -24,7 +24,7 @@
           <li class=" nav-item">
             <a href="<?= base_url('/ayam-mati') ?>">
                 <i class="icon-drawer"></i>
-                <span class="menu-title" data-i18n="nav.dash.ayamMati_sisa">Ayam Mati & Sisa</span>
+                <span class="menu-title" data-i18n="nav.dash.ayamMati_sisa">Ayam Mati &  Sisa</span>
             </a>
           </li>
           <li class=" nav-item">

@@ -17,7 +17,7 @@ class Keuangan extends MyModel
                 'primaryKey' => true,
                 'allowed' => false,
                 'type' => 'hidden',
-                'showOnTable' => true,
+                'showOnTable' => false,
             ],
             [
                 'name' => 'tanggal',
@@ -34,7 +34,7 @@ class Keuangan extends MyModel
             ],
             [
                 'name' => 'setoran_tunai',
-                'label' => 'Setoran Tunai',
+                'label' => 'Setoran Hotel',
                 'primaryKey' => false,
                 'allowed' => true,
                 'rules' => 'required|numeric',
@@ -50,7 +50,7 @@ class Keuangan extends MyModel
             ],
             [
                 'name' => 'setoran_transfer',
-                'label' => 'Setoran Transfer',
+                'label' => 'Setoran Langganan',
                 'primaryKey' => false,
                 'allowed' => true,
                 'rules' => 'required|numeric',
@@ -66,7 +66,7 @@ class Keuangan extends MyModel
             ],
             [
                 'name' => 'piutang_tunai',
-                'label' => 'Piutang Tunai',
+                'label' => 'Piutang Hotel',
                 'primaryKey' => false,
                 'allowed' => true,
                 'rules' => 'required|numeric',
@@ -82,7 +82,7 @@ class Keuangan extends MyModel
             ],
             [
                 'name' => 'piutang_transfer',
-                'label' => 'Piutang Transfer',
+                'label' => 'Piutang Langganan',
                 'primaryKey' => false,
                 'allowed' => true,
                 'rules' => 'required|numeric',

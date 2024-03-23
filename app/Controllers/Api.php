@@ -18,6 +18,7 @@ class Api extends BaseController
         return $this->response->setStatusCode(200)->setJSON(['status'=>$status, 'message'=>$message, 'data'=>$data]);
     }
     private function initModel($nm) {
+    
         $nm = str_replace('-', '_', $nm);
         $nm = \explode('_', $nm);
         $cls = '';
@@ -133,7 +134,7 @@ class Api extends BaseController
 
             // Mengembalikan response dengan format yang sesuai untuk DataTables
             return $this->response->setStatusCode(200)->setJSON([
-                'draw'            => intval($_GET['draw']),
+                'draw'            => intval($this->request->getGet('draw')),
                 'recordsTotal'    => $totalData,
                 'recordsFiltered' => $totalData, // Untuk sederhana, sama dengan totalData
                 'data'            => $result,

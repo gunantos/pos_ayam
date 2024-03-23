@@ -17,7 +17,7 @@ class Omset extends MyModel
                 'primaryKey' => true,
                 'allowed' => false,
                 'type' => 'hidden',
-                'showOnTable' => true,
+                'showOnTable' => false,
             ],
             [
                 'name' => 'tanggal',
